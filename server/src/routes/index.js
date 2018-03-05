@@ -10,6 +10,7 @@ import { Router } from 'express';
 import StopsRouter from './stops';
 import UsersRouter from './users';
 import ImagesRouter from './images';
+import NearRouter from './nearby';
 
 let router = Router();
 
@@ -22,6 +23,7 @@ let router = Router();
 //     .put(tokenMiddleware, isLoggedIn)
 //     .delete(tokenMiddleware, isLoggedIn);
 
+router.use('/near', NearRouter);
 router.use('/stops', StopsRouter);
 router.use('/users', UsersRouter);
 router.use('/images', ImagesRouter);

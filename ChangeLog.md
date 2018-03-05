@@ -1,6 +1,8 @@
 # SelfieStop Server 
 
 
+## version 0.0.9
+- added image uploaded to AWS  
 
 ## version 0.0.5
 - removed yarn.lock
