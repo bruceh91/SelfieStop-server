@@ -1,6 +1,9 @@
 # SelfieStop Server 
 
 
+## version 0.1.0
+- tier one complete 
+
 ## version 0.0.9
 - added image uploaded to AWS  
 

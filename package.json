@@ -16,7 +16,9 @@
   "author": "Covalence",
   "license": "ISC",
   "dependencies": {
+    "atob": "^2.0.3",
     "aws-sdk": "^2.205.0",
+    "b64-to-blob": "^1.2.19",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
