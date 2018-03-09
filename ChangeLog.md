@@ -1,6 +1,12 @@
 # SelfieStop Server 
 
 
+## version 0.1.6
+- added salting and hashing
+
+## version 0.1.1
+- added authorization
+
 ## version 0.1.0
 - tier one complete 
 

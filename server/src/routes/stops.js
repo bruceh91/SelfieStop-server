@@ -13,26 +13,31 @@ router.get('/', (req, res) => {
     let sql =
         `select
         i.image as image,
-        i.rating as imagerating,
         i.url as imageurl,
-        i._created as imagecreated,
-        s.name as stopname,
-        s.description as description,
-        s.city as city,
-        s.lat as lat,
-        s.lng as lng,
-        s.rating as stoprating,
-        u.firstname as uploadedby,
-        u2.firstname as stopsubmittedby
-     from userstops us
+       i.rating as imagerating,
+       i._created as imagecreated,
+       i.lat as imagelat,
+       i.lng as imagelng,
+       i.height as imageheight,
+       i.width as imagewidth,
+       i.orientation as orientation,
+       s.name as stop,
+       s.description as description,
+       s.city as city,
+       s.lat as stoplat,
+       s.lng as stoplng,
+       s.rating as stoprating,
+       u.firstname as uploadedby,
+       u2.firstname as stopsubmittedby
+    
+    from userstops us
         join images i on i.id=us.imageid
-        join stops s on s.id=us.stopid
-        join users u on u.id=us.userid
-        join users u2 on u2.id=s.userid;`;
+       join stops s on s.id=us.stopid
+       join users u on u.id=us.userid
+       join users u2 on u2.id=s.userid;`;
     executeQuery(sql)
         .then((data) => {
             res.json(data);
-            // console.log(JSON.stringify(data));
         }).catch((err) => {
             console.log(err);
             res.sendStatus(500);
