@@ -34,6 +34,25 @@ router.get('/:id?', (req, res) => {
     });
 });
 
+// router.post('/', (req, res) => {
+//     console.log('stop.js router post')
+
+//     fetch(`http://localhost:3001/api/auth/generate/${req.password}`)
+//             .then((response) => {
+//                 return response.json();
+//             })
+
+
+//     classTable.insert(req.body)
+//         .then((results) => 
+//             res.json(results);
+//         }).catch((err) => {
+//             console.log(err);
+//             res.sendStatus(500);
+//         });
+// });
+
+
 router.put('/:id', (req, res) => {
     classTable.update(req.params.id, req.body)
     .then((results) => {

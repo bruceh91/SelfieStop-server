@@ -9,6 +9,7 @@ import b64toBlob from 'b64-to-blob';
 
 let router = Router();
 let imagesTable = new Table('images');
+// let stopsTable = new Table('stops');
 
 router.get('/', (req, res) => {
     console.log('get all images');
@@ -133,85 +134,97 @@ router.get('/:id?', (req, res) => {
 
 router.post('/', (req, res) => {
     console.log('image.js router post')
-    console.log(`req.body       ${req.body.description}`);
+
 
 
     //     //////////   gets exif data
-    let exifObj = piexif.load(req.body.uri);
-    // console.log(exifObj);
-    //// latitude
-    // let exifLat = (`${exifObj.GPS[2][0][0]}.${exifObj.GPS[2][1][0]}${exifObj.GPS[2][2][0]}`);
-    //// longitude
-    // let exifLng = (`-${exifObj.GPS[4][0][0]}.${exifObj.GPS[4][1][0]}${exifObj.GPS[4][2][0]}`); /// have to write if statements for people to add negatives for other hemispheres
-    //// width
-    let exifW = exifObj.Exif[40962];
-    //// Height
-    let exifH = exifObj.Exif[40963];
-    //// Orientation
-    let exifOr = 0;
+    // let exifObj = piexif.load(req.body.uri);
+    // // console.log(exifObj);
+    // //// latitude
+    // // let exifLat = (`${exifObj.GPS[2][0][0]}.${exifObj.GPS[2][1][0]}${exifObj.GPS[2][2][0]}`);
+    // //// longitude
+    // // let exifLng = (`-${exifObj.GPS[4][0][0]}.${exifObj.GPS[4][1][0]}${exifObj.GPS[4][2][0]}`); /// have to write if statements for people to add negatives for other hemispheres
+    // //// width
+    // let exifW = exifObj.Exif[40962];
+    // //// Height
+    // let exifH = exifObj.Exif[40963];
+    // //// Orientation
+    // let exifOr = 0;
     
-    if (exifW >= exifH) {
-        exifOr = 1;
-    } else if (exifW < exifH) {
-        exifOr = 2;
-    } else if (exifW = exifH) {
-        exifOr = 3;
-    };
+    // if (exifW >= exifH) {
+    //     exifOr = 1;
+    // } else if (exifW < exifH) {
+    //     exifOr = 2;
+    // } else if (exifW = exifH) {
+    //     exifOr = 3;
+    // };
 
     // console.log(`lat = ${exifLat}, lng = ${exifLng}, Height = ${exifH}, Width = ${exifW}, Orientation = ${exifOr}`);
 
 
 
-    AWS.config.update({
-        accessKeyId: process.env.AWS_ACCESSKEY,
-        secretAccessKey: process.env.AWS_SECRET,
-        "region": "us-east-2"
-    });
+    // AWS.config.update({
+    //     accessKeyId: process.env.AWS_ACCESSKEY,
+    //     secretAccessKey: process.env.AWS_SECRET,
+    //     "region": "us-east-2"
+    // });
 
-    var s3 = new AWS.S3();
+    // var s3 = new AWS.S3();
 
-    let imgId = new Date().getTime();
-    var extensionHolder = req.body.uri.split(`;`)[0].split(`/`);
-    var imageExtension = extensionHolder[1];
+    // let imgId = new Date().getTime();
+    // var extensionHolder = req.body.uri.split(`;`)[0].split(`/`);
+    // var imageExtension = extensionHolder[1];
 
-    let buf = new Buffer(req.body.uri.replace(/^data:image\/\w+;base64,/, ""), 'base64')
+    // let buf = new Buffer(req.body.uri.replace(/^data:image\/\w+;base64,/, ""), 'base64')
 
-    // console.log(req)
+    // // console.log(req)
 
-    var params = {
-        Bucket: 'selfietester',
-        Key: `${imgId}.${imageExtension}`,
-        Body: buf,
-        ContentEncoding: 'base64',
-        ContentType: `image/${imageExtension}`,
-        ACL: 'public-read'
-    };
-    s3.putObject(params, function (err, res) {
-        if (err) {
-            console.log(err)
-            console.log("Error uploading data: ", params);
-        } else {
-            console.log("Successfully uploaded data", params);
-        }
-    });
+    // var params = {
+    //     Bucket: 'selfietester',
+    //     Key: `${imgId}.${imageExtension}`,
+    //     Body: buf,
+    //     ContentEncoding: 'base64',
+    //     ContentType: `image/${imageExtension}`,
+    //     ACL: 'public-read'
+    // };
+    // s3.putObject(params, function (err, res) {
+    //     if (err) {
+    //         console.log(err)
+    //         console.log("Error uploading data: ", params);
+    //     } else {
+    //         console.log("Successfully uploaded data", params);
+    //     }
+    // });
 
+//     router.post('/', (req, res) => {
+//     console.log('stop.js router post')
+//     stopsTable.insert(req.body)
+//         .then((results) => {
+//             res.json(results);
+//         }).catch((err) => {
+//             console.log(err);
+//             res.sendStatus(500);
+//         });
+// });
 
     //////// sends to database
-    let sql = `INSERT INTO images (image, userid, stopid, URL) VALUES ("lolol", 31, 21, "${imgId}.${imageExtension}")`;
-    executeQuery(sql, req)
-    .then(res.send());
+    console.log(`req.body       ${req.body.lat}`);
+    // let sql = `INSERT INTO images (image, userid, stopid, URL) VALUES ("lolol", ${req.body.userId}, 21, "${imgURL}")`;
+    // console.log(sql);
+    // executeQuery(sql, req)
+    // .then(res.send());
+    res.send('yo', 201);
 
     // var b64 = "data:image/jpeg;base64,/9j/4AAQSkZJRgABA......";
     // var bin = atob(b64.split(',')[1]);
     // var exif = EXIF.readFromBinaryFile(new BinaryFile(bin));
     // alert(exif.Orientation);
 
-                                                                   /////////////////////////
-                                                                  //////    !!!      //////        
-    // let sql = `INSERT INTO images (URL) VALUES (${imgId});`;  //////  IMPORTANT  //////
-    // executeQuery(sql, params)                                //////      !!!    ////// 
-});                                                            /////////////////////////
-
+                                                                
+                                                                          
+    // let sql = `INSERT INTO images (URL) VALUES (${imgId});`;  
+    // executeQuery(sql, params)                                
+});                                                            
 router.put('/:id', (req, res) => {
     console.log('update 1 image')
     imagesTable.update(req.params.id, req.body) 

@@ -1,8 +1,11 @@
 import { Router } from 'express';
 import passport from 'passport';
+import Table from '../table';
 import { makeHash } from "../utils/hash";
 
 let router = Router();
+
+let classTable = new Table('tokens');
 
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', (err, tok, info) => {
@@ -12,13 +15,19 @@ router.post('/login', (req, res, next) => {
         } else if (!tok) {
             return res.status(401).json(info);
         } else {
-            return res.status(201).json(tok);
+            return res.send(tok, 201);
         }
     })(req, res, next);
-    // console.log(req.body.email);
-    // console.log(req.body.password);
-    // console.log(req.body);
-    // res.sendStatus(200)
+});
+
+router.delete('/logout/:id', (req, res) => {
+    classTable.delete(req.params.id)
+    .then((results) => {
+        res.json(results);
+    }).catch((err) => {
+        console.log(err);
+        res.sendStatus(500);
+    });
 });
 
 router.get("/generate/:pw", (req, res, next) => {

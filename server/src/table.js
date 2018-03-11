@@ -49,7 +49,7 @@ class Table {
     }
 
     delete(id) {
-        let sql = `DELETE FROM ${this.tableName} WHERE id = ${id}`;
+        let sql = `DELETE FROM ${this.tableName} WHERE userid = ${id}`;
         return executeQuery(sql);
     }
 }

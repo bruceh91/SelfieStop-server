@@ -8,6 +8,8 @@ import { checkPassword } from "../utils/hash";
 let usersTable = new Table('users');
 let tokensTable = new Table('tokens');
 
+let userID;
+
 function configurePassport(app) {
     passport.use(
         new LocalStrategy(
@@ -22,7 +24,8 @@ function configurePassport(app) {
               .then(results => results[0])
               .then(result => {
                 if (result && result.password) {
-                    console.log(result);
+                  userID = result.id;
+                  console.log(`b      ${userID}`);
                   checkPassword(password, result.password)
                     .then(matches => {
                       if (matches) {
@@ -31,19 +34,19 @@ function configurePassport(app) {
                             userid: result.id
                           }).then(idObj => encode(idObj.id))
                           .then(tokenVal => {
-                            return done(null, { token: tokenVal });
+                            return done(null, { token: tokenVal, userId: userID });
                           });
                       } else {
                         // password is incorrect
                         return done(null, false, {
-                          message: "Invalid login"
+                          message: "pass"
                         });
                       }
                     }).catch(err => {
                       throw err;
                     });
                 } else {
-                  return done(null, false, { message: "Invalid login" });
+                  return done(null, false, { message: "email" });
                 }
               }).catch(err => {
                 return done(err);

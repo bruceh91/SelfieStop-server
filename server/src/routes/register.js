@@ -12,7 +12,6 @@ router.post('/', (req, res) => {
         console.log(req.body);
         classTable
           .insert({
-            firstname: req.body.firstname,
             email: req.body.email,
             username: req.body.username,
             password: hash
